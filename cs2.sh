@@ -1,9 +1,9 @@
 #!/bin/sh -a
 
-##################################################################################
-#     This script was specifically designed to be ran on my computer alone.	 #
-# You should not use this script directly, but rather as a base for a new script.#
-##################################################################################
+#
+# This script was specifically designed to be ran on my computer alone.	
+# You should not use this script directly, but rather as a base for a new script.
+#
 
 #
 # WINESYNC requires the winesync kernel module. If you do not have this kernel
