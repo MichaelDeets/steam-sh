@@ -8,7 +8,7 @@
 #
 # WINESYNC requires the winesync kernel module. If you do not have this kernel
 # module installed, it will not work. You should instead enable WINEESYNC or
-# WINEFSYNC, then disable WINESYNC.
+# WINEFSYNC, and disable WINESYNC.
 #
 
 # Wine initial configuration
