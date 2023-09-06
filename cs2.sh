@@ -1,52 +1,98 @@
 #!/bin/sh -a
 
+##################################################################################
+#     This script was specifically designed to be ran on my computer alone.	 #
+# You should not use this script directly, but rather as a base for a new script.#
+##################################################################################
+
+#
+# WINESYNC requires the winesync kernel module. If you do not have this kernel
+# module installed, it will not work. You should instead enable WINEESYNC and
+# WINEFSYNC, then disable WINESYNC.
+#
+
 # Wine initial configuration
-WINEARCH="win64"
+INEARCH="win64"
 WINEDEBUG="-all"
 WINEESYNC=0
 WINEFSYNC=0
 WINESYNC=1
 
+#
+# WINE_ROOT should point to your WINE installation main folder, as it is used to
+# define WINE's location. This makes it easy to use pre-built WINE forks such as
+# WINE-GE. In this case, I am using the location defined by eselect in Gentoo
+# where it is pointing to my compiled version of GE's fork of Valve's Proton WINE.
+
 # Locally extracted WINE
-#WINE_ROOT=/home/michael/Games/steam/wine/wineroot
+#WINE_ROOT=~/Games/steam/wine/wineroot
 WINE_ROOT=/etc/eselect/wine/
 WINE=$WINE_ROOT/bin/wine
 WINESERVER=$WINE_ROOT/bin/wineserver
-WINEPREFIX=/home/michael/Games/steam/wine/prefix
+WINEPREFIX=~/Games/steam/wine/prefix
+
+# 
+# For this install, we have defined a location for Steam to be installed.
+# This location MUST be selected when installing Steam from SteamSetup.exe.
+# By default, Steam will be installed within the WINE prefix, which can be
+# extremely annoying if the prefix gets deleted.
+#
 
 # Steam setup
-STEAM_ROOT=/home/michael/Games/steam/steamroot/
+STEAM_ROOT=~/Games/steam/steamroot/
 STEAM_EXE=$STEAM_ROOT/steam.exe
 STEAM_ARGS="-cef-disable-sandbox -cef-disable-seccomp-sandbox -cef-single-process -no-cef-sandbox -nocrashmonitor -nointro -novid -nojoy -no-browser -no-dwrite -cef-disable-gpu -nointro -rememberpassword -single_core"
-DXVK_CONFIG_FILE="/home/michael/.config/dxvk/dxvk.conf"
+DXVK_CONFIG_FILE="~/.config/dxvk/dxvk.conf"
 VKBASALT_LOG_LEVEL="none"
+
+#
+# I have issues using the open-source MESA drivers, where smokes will not render
+# and various visual bugs occur throughout gameplay. Defining the envvars
+# VK_ICD_FILENAMES will allow you to switch from MESA to AMDVLK or even
+# the AMDGPU-PRO drivers.
+# Only attempt switching drivers if you find problems using MESA, otherwise you
+# should always be using MESA.
+#
 
 # AMD driver config
 #VK_ICD_FILENAMES="/usr/share/vulkan/icd.d/amd_pro_icd32.json:/usr/share/vulkan/icd.d/amd_pro_icd64.json"
-VK_ICD_FILENAMES="/etc/vulkan/icd.d/amd_icd32.json:/etc/vulkan/icd.d/amd_icd64.json"
-AMD_VULKAN_ICD=AMDVLK
+#VK_ICD_FILENAMES="/etc/vulkan/icd.d/amd_icd32.json:/etc/vulkan/icd.d/amd_icd64.json"
+#AMD_VULKAN_ICD=AMDVLK
+
+#
+# You might want to change wineboot and wineserver to the exact locations.
+# This will currently use the first result from PATH, so you could also
+# include the WINE installation as the first location inside PATH.
+#
 
 if [ ! -d $WINEPREFIX ]; then
 	echo "--- Creating WINE prefix ---"
-	mkdir -p /home/michael/Games/steam/wine
+	mkdir -p ~/Games/steam/wine
 	wineboot && wineserver
 	winetricks msls31 riched20 andale arial comicsans impact tahoma times allfonts d3dcompiler_43 d3dcompiler_47 fontsmooth=rgb 
 fi
+
+#
+# If you have a DXVK installation from your package manager, this will
+# install the DXVK binaries inside the WINE prefix. You might need to
+# change the location of setup_dxvk.sh.
+#
+
 
 if [ ! -L $WINEPREFIX/drive_c/windows/system32/d3d11.dll ]; then
 	echo "--- Installing DXVK ---"
 	WINE=${WINE} WINEPREFIX=${WINEPREFIX} /usr/bin/setup_dxvk.sh install --symlink
 fi
 
-echo "--- Launching Steam ---"
-. /home/michael/.cs2/pre.sh
+#
+# Taken directly from csgo.sh.
+#
 
+echo "--- Launching Steam ---"
 STATUS=42
 cd $STEAM_ROOT
 while [ $STATUS -eq 42 ]; do
 	$WINE $STEAM_EXE $STEAM_ARGS
 	STATUS=$?
 done
-
-. /home/michael/.cs2/post.sh
 exit $STATUS
