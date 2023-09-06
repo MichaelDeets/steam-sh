@@ -86,6 +86,11 @@ fi
 
 #
 # Taken directly from csgo.sh.
+# I like to include multiple .sh scripts containing various settings and envvars.
+# One before the while loop, and one after.
+#
+# You might need to use either "source" or simply a "." before the script location
+# to actually load. I have success using the latter. 
 #
 
 echo "--- Launching Steam ---"
