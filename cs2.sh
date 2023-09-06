@@ -12,7 +12,7 @@
 #
 
 # Wine initial configuration
-INEARCH="win64"
+WINEARCH="win64"
 WINEDEBUG="-all"
 WINEESYNC=0
 WINEFSYNC=0
