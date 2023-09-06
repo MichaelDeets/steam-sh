@@ -23,6 +23,7 @@ WINESYNC=1
 # define WINE's location. This makes it easy to use pre-built WINE forks such as
 # WINE-GE. In this case, I am using the location defined by eselect in Gentoo
 # where it is pointing to my compiled version of GE's fork of Valve's Proton WINE.
+#
 
 # Locally extracted WINE
 #WINE_ROOT=~/Games/steam/wine/wineroot
