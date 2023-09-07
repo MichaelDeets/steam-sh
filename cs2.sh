@@ -4,8 +4,8 @@
 # You should not use this script directly, but rather as a base for a new script.
 
 # WINESYNC requires the winesync kernel module. If you do not have this kernel
-# module installed, it will not work. You should instead enable WINEESYNC or
-# WINEFSYNC, and disable WINESYNC.
+# module installed, it will not work. You should instead enable WINEESYNC or WINE
+# FSYNC, and disable WINESYNC.
 
 WINEARCH="win64"
 WINEDEBUG="-all"
@@ -26,7 +26,7 @@ WINEPREFIX=~/Games/steam/wine/prefix
 
 # For this install, we have defined a location for Steam to be installed.
 # This location MUST be selected when installing Steam from SteamSetup.exe.
-# By default, Steam will be installed within the WINE prefix, which can be
+# By default, Steam will be installed within the WINE prefix, which can be 
 # extremely annoying if the prefix gets deleted.
 
 STEAM_ROOT=~/Games/steam/steamroot/
@@ -36,8 +36,8 @@ DXVK_CONFIG_FILE="~/.config/dxvk/dxvk.conf"
 
 # I have issues using the open-source MESA drivers, where smokes will not render
 # and various visual bugs occur throughout gameplay. Defining the envvars
-# VK_ICD_FILENAMES will allow you to switch from MESA to AMDVLK or even
-# the AMDGPU-PRO drivers.
+# VK_ICD_FILENAMES will allow you to switch from MESA to AMDVLK or even the
+# AMDGPU-PRO drivers.
 # Only attempt switching drivers if you find problems using MESA, otherwise you
 # should always be using MESA.
 
@@ -46,11 +46,11 @@ DXVK_CONFIG_FILE="~/.config/dxvk/dxvk.conf"
 #AMD_VULKAN_ICD=AMDVLK
 
 # You might want to change wineboot and wineserver to the exact locations.
-# This will currently use the first result from PATH, so you could also
-# include the WINE installation as the first location inside PATH.
+# This will currently use the first result from PATH, so you could also include
+# the WINE installation as the first location inside PATH.
 #
-# Probably don't need to include the WINEPREFIX/WINE envvars, but just to
-# make sure they're actually being used.
+# Probably don't need to include the WINEPREFIX/WINE envvars, but just to make
+# sure they're actually being used.
 
 echo "--- Creating WINE prefix ---"
 if [ ! -d $WINEPREFIX ]; then
@@ -59,9 +59,9 @@ if [ ! -d $WINEPREFIX ]; then
 	WINEPREFIX=${WINEPREFIX} winetricks msls31 riched20 andale arial comicsans impact tahoma times allfonts d3dcompiler_43 d3dcompiler_47 fontsmooth=rgb 
 fi
 
-# If you have a DXVK installation from your package manager, this will
-# install the DXVK binaries inside the WINE prefix. You might need to
-# change the location of setup_dxvk.sh.
+# If you have a DXVK installation from your package manager, this will install
+# the DXVK binaries inside the WINE prefix. You might need to change the location
+# of setup_dxvk.sh.
 
 echo "--- Installing DXVK ---"
 if [ ! -L $WINEPREFIX/drive_c/windows/system32/d3d11.dll ]; then
@@ -72,8 +72,8 @@ fi
 # I like to include multiple .sh scripts containing various settings and envvars.
 # One before the while loop, and one after.
 #
-# You might need to use either "source" or simply a "." before the script location
-# to actually load. I have success using the latter. 
+# You might need to use either "source" or simply a "." before the script
+# location to actually load. I have success using the latter. 
 
 echo "--- Launching Steam ---"
 STATUS=42
