@@ -31,7 +31,7 @@ WINEPREFIX=~/Games/steam/wine/prefix
 
 STEAM_ROOT=~/Games/steam/steamroot/
 STEAM_EXE=$STEAM_ROOT/steam.exe
-STEAM_ARGS="-cef-disable-sandbox -cef-disable-seccomp-sandbox -cef-single-process -no-cef-sandbox -nocrashmonitor -nointro -novid -nojoy -no-browser -no-dwrite -cef-disable-gpu -nointro -rememberpassword -single_core"
+STEAM_ARGS="-nointro"
 DXVK_CONFIG_FILE="~/.config/dxvk/dxvk.conf"
 
 # I have issues using the open-source MESA drivers, where smokes will not render
