@@ -61,7 +61,9 @@ fi
 
 # If you have a DXVK installation from your package manager, this will install
 # the DXVK binaries inside the WINE prefix. You might need to change the location
-# of setup_dxvk.sh.
+# of setup_dxvk.sh, if it does not exist, you can download it from here:
+# https://raw.githubusercontent.com/doitsujin/dxvk/4f90d7bf5f9ad785660507e0cb459a14dab5ac75/setup_dxvk.sh
+# and change the script accordingly, otherwise just comment this out.
 
 echo "--- Installing DXVK ---"
 if [ ! -L $WINEPREFIX/drive_c/windows/system32/d3d11.dll ]; then
