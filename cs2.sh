@@ -17,44 +17,49 @@ WINESYNC=1
 # define WINE's location. This makes it easy to use pre-built WINE forks such as
 # WINE-GE. In this case, I am using the location defined by eselect in Gentoo
 # where it is pointing to my compiled version of GE's fork of Valve's Proton WINE.
+# We are setting up the location inside ~/Games/steam-wine, feel free to change
+# the location by changing the BASE_INSTALL location
 
-#WINE_ROOT=~/Games/steam/wine/wineroot
-WINE_ROOT=/etc/eselect/wine/
+BASE_INSTALL="~/Games/steam-wine"
+
+#WINE_ROOT=/etc/eselect/wine/
+WINE_ROOT=$BASE_INSTALL/wine/wineroot
 WINE=$WINE_ROOT/bin/wine
 WINESERVER=$WINE_ROOT/bin/wineserver
-WINEPREFIX=~/Games/steam/wine/prefix
+WINEPREFIX=$BASE_INSTALL/wine/prefix
 
 # For this install, we have defined a location for Steam to be installed.
 # This location MUST be selected when installing Steam from SteamSetup.exe.
 # By default, Steam will be installed within the WINE prefix, which can be 
 # extremely annoying if the prefix gets deleted.
 
-STEAM_ROOT=~/Games/steam/steamroot/
+STEAM_ROOT=$BASE_INSTALL/steamroot/
 STEAM_EXE=$STEAM_ROOT/steam.exe
 STEAM_ARGS="-nointro"
 DXVK_CONFIG_FILE="~/.config/dxvk/dxvk.conf"
 
-# I have issues using the open-source MESA drivers, where smokes will not render
-# and various visual bugs occur throughout gameplay. Defining the envvars
-# VK_ICD_FILENAMES will allow you to switch from MESA to AMDVLK or even the
-# AMDGPU-PRO drivers.
+# I previously had issues were MESA would not render smokes, with or without
+# vulkan; these issues were due to compiling MESA with -Ofast, more specifically
+# one of the flags -Ofast enables.
 # Only attempt switching drivers if you find problems using MESA, otherwise you
 # should always be using MESA.
 
-#VK_ICD_FILENAMES="/usr/share/vulkan/icd.d/amd_pro_icd32.json:/usr/share/vulkan/icd.d/amd_pro_icd64.json"
-#VK_ICD_FILENAMES="/etc/vulkan/icd.d/amd_icd32.json:/etc/vulkan/icd.d/amd_icd64.json"
+# For AMDGPU-PRO you should define the ICD filename locations
+#VK_ICD_FILENAMES="/usr/share/vulkan/icd.d/amd_pro_icd64.json"
+
+# For AMDVLK, instead use the envvar:
 #AMD_VULKAN_ICD=AMDVLK
 
-# You might want to change wineboot and wineserver to the exact locations.
-# This will currently use the first result from PATH, so you could also include
-# the WINE installation as the first location inside PATH.
-#
+# Rather than using the default WINE prefix location (~/.wine), we will have the
+# prefix installed locally at the location defined before.
 # Probably don't need to include the WINEPREFIX/WINE envvars, but just to make
 # sure they're actually being used.
+# These winetricks variables were taken from the Lutris Steam install script, so I
+# would assume they are correct.
 
 echo "--- Creating WINE prefix ---"
 if [ ! -d $WINEPREFIX ]; then
-	mkdir -p ~/Games/steam/wine
+	mkdir -p $WINEPREFIX
 	$WINE_ROOT/bin/wineboot && $WINE_ROOT/bin/wineserver
 	WINEPREFIX=${WINEPREFIX} winetricks msls31 riched20 andale arial comicsans impact tahoma times allfonts d3dcompiler_43 d3dcompiler_47 fontsmooth=rgb 
 fi
